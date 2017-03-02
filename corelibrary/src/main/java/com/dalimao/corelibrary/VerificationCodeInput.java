@@ -86,12 +86,6 @@ public class VerificationCodeInput extends ViewGroup {
             @Override
             public void afterTextChanged(Editable s) {
                 if (s.length() == 0) {
-                    int id = currentFocusChild.getId();
-                    if (id > 0) {
-                        EditText editText = (EditText) getChildAt((currentFocusChild.getId() - 1) % box);
-                        editText.requestFocus();
-
-                    }
                 } else {
                     checkAndCommit();
                 }

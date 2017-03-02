@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools" android:id="@+id/activity_main"
     xmlns:ver="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent" android:layout_height="match_parent"
@@ -7,18 +7,53 @@
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
+    android:orientation="vertical"
     tools:context="com.dalimao.verificationcodeinput.MainActivity">
 
-
+   <TextView
+       android:layout_width="wrap_content"
+       android:layout_height="wrap_content"
+       android:text="系统样式："
+       />
     <com.dalimao.corelibrary.VerificationCodeInput
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         ver:box="4"
-        ver:box_bg="@drawable/verification_edit_bg_selector"
         ver:child_h_padding="5dp"
         android:layout_centerInParent="true"
         android:id="@+id/verificationCodeInput"
-        >
-
-    </com.dalimao.corelibrary.VerificationCodeInput>
-</RelativeLayout>
+        android:layout_marginBottom="16dp"
+        />
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="自动定义样式："
+        android:padding="12dp"
+        />
+    <com.dalimao.corelibrary.VerificationCodeInput
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        ver:box="4"
+        ver:box_bg_normal="@drawable/verification_edit_bg_normal"
+        ver:box_bg_focus="@drawable/verification_edit_bg_focus"
+        ver:child_h_padding="5dp"
+        android:layout_centerInParent="true"
+        android:layout_marginBottom="16dp"
+        />
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="定义个数："
+        android:padding="12dp"
+        />
+    <com.dalimao.corelibrary.VerificationCodeInput
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        ver:box="5"
+        ver:box_bg_normal="@drawable/verification_edit_bg_normal"
+        ver:box_bg_focus="@drawable/verification_edit_bg_focus"
+        ver:child_h_padding="5dp"
+        android:layout_centerInParent="true"
+        android:layout_marginBottom="16dp"
+        />
+</LinearLayout>

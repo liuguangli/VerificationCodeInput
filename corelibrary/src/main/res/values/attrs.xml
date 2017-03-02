@@ -6,7 +6,8 @@
         <attr name="child_h_padding" format="dimension"/>
         <attr name="child_v_padding" format="dimension"/>
         <attr name="padding" format="dimension"/>
-        <attr name="box_bg" format="reference"/>
+        <attr name="box_bg_focus" format="reference"/>
+        <attr name="box_bg_normal" format="reference"/>
     </declare-styleable>
 
 </resources>

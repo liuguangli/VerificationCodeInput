@@ -18,6 +18,7 @@ import android.text.TextWatcher;
 import android.util.AttributeSet;
 import android.util.Log;
 import android.view.Gravity;
+import android.view.KeyEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
@@ -35,7 +36,8 @@ public class VerificationCodeInput extends ViewGroup {
     private int boxHeight = 120;
     private int childHPadding = 14;
     private int childVPadding = 14;
-    private Drawable boxBg = null;
+    private Drawable boxBgFocus = null;
+    private Drawable boxBgNormal = null;
     private EditText currentFocusChild;
     private Listener listener;
 
@@ -46,7 +48,8 @@ public class VerificationCodeInput extends ViewGroup {
 
         childHPadding = (int) a.getDimension(R.styleable.vericationCodeInput_child_h_padding, 0);
         childVPadding = (int) a.getDimension(R.styleable.vericationCodeInput_child_v_padding, 0);
-        boxBg =  a.getDrawable(R.styleable.vericationCodeInput_box_bg);
+        boxBgFocus =  a.getDrawable(R.styleable.vericationCodeInput_box_bg_focus);
+        boxBgNormal = a.getDrawable(R.styleable.vericationCodeInput_box_bg_normal);
         initViews();
 
     }
@@ -77,20 +80,54 @@ public class VerificationCodeInput extends ViewGroup {
                 if (s.length() == 1) {
                     EditText editText = (EditText) getChildAt((currentFocusChild.getId() + 1) % box);
                     editText.requestFocus();
-                    currentFocusChild = editText;
-
-
                 }
             }
 
             @Override
             public void afterTextChanged(Editable s) {
-                checkAndCommit();
+                if (s.length() == 0) {
+                    int id = currentFocusChild.getId();
+                    if (id > 0) {
+                        EditText editText = (EditText) getChildAt((currentFocusChild.getId() - 1) % box);
+                        editText.requestFocus();
+
+                    }
+                } else {
+                    checkAndCommit();
+                }
+
 
             }
 
         };
 
+        OnFocusChangeListener listener = new OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View v, boolean hasFocus) {
+
+                EditText editText = (EditText)v;
+                setBg(editText, hasFocus);
+                if (hasFocus) {
+                    currentFocusChild = editText;
+                }
+            }
+        };
+
+        OnKeyListener onKeyListener = new OnKeyListener() {
+            @Override
+            public boolean onKey(View v, int keyCode, KeyEvent event) {
+                if (keyCode == KeyEvent.KEYCODE_DEL) {
+                    EditText editText = (EditText) v;
+                    int id = editText.getId();
+                    if (id > 0) {
+                        EditText prEditText = (EditText) getChildAt((currentFocusChild.getId() - 1) % box);
+                        prEditText.requestFocus();
+
+                    }
+                }
+                return false;
+            }
+        };
 
 
         for (int i = 0; i < box; i++) {
@@ -101,11 +138,13 @@ public class VerificationCodeInput extends ViewGroup {
             layoutParams.leftMargin = childHPadding;
             layoutParams.rightMargin = childHPadding;
             layoutParams.gravity = Gravity.CENTER;
-            editText.setBackground(boxBg);
+
+            editText.setOnFocusChangeListener(listener);
+            editText.setOnKeyListener(onKeyListener);
+            setBg(editText, false);
             editText.setLayoutParams(layoutParams);
             editText.setGravity(Gravity.CENTER);
             editText.setFilters(new InputFilter[]{new InputFilter.LengthFilter(1)});
-            editText.setCursorVisible(false);
             editText.setInputType(InputType.TYPE_CLASS_NUMBER);
             editText.setId(i);
             editText.setEms(1);
@@ -119,6 +158,14 @@ public class VerificationCodeInput extends ViewGroup {
         }
 
 
+    }
+
+    private void setBg(EditText editText, boolean focus) {
+        if (boxBgNormal != null && !focus) {
+            editText.setBackground(boxBgNormal);
+        } else if (boxBgFocus != null && focus) {
+            editText.setBackground(boxBgFocus);
+        }
     }
 
     private void checkAndCommit() {

@@ -1,5 +1,8 @@
 # VerificationCodeInput
 简洁验证码输入框，能自定义输入框个数和样式。
+
+![](https://github.com/liuguangli/VerificationCodeInput/blob/master/verification.gif)
+
 # how to use
     <com.dalimao.corelibrary.VerificationCodeInput
             android:layout_width="wrap_content"

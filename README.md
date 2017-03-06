@@ -3,7 +3,7 @@
 
 简洁验证码输入框，能自定义输入框个数和样式。
 
-![](https://github.com/liuguangli/VerificationCodeInput/blob/master/verification.gif)
+![](https://github.com/liuguangli/VerificationCodeInput/blob/master/verification1.gif)
 
 # How to use
     <com.dalimao.corelibrary.VerificationCodeInput
@@ -52,6 +52,7 @@
             android:layout_marginBottom="16dp"
             />
 
+![](https://github.com/liuguangli/VerificationCodeInput/blob/master/verification1.gif)
 # Gradle dependencies
 
 Add it in your root build.gradle at the end of repositories:

@@ -1,9 +1,11 @@
 # VerificationCodeInput
+[![](https://jitpack.io/v/liuguangli/VerificationCodeInput.svg)](https://jitpack.io/#liuguangli/VerificationCodeInput)
+
 简洁验证码输入框，能自定义输入框个数和样式。
 
 ![](https://github.com/liuguangli/VerificationCodeInput/blob/master/verification.gif)
 
-# how to use
+# How to use
     <com.dalimao.corelibrary.VerificationCodeInput
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -50,6 +52,22 @@
             android:layout_marginBottom="16dp"
             />
 
+# Gradle dependencies
+
+Add it in your root build.gradle at the end of repositories:
+
+	allprojects {
+		repositories {
+			...
+			maven { url 'https://jitpack.io' }
+		}
+	}
+Step 2. Add the dependency
+
+	dependencies {
+	        compile 'com.github.liuguangli:VerificationCodeInput:1.0'
+	}
+Share this release:
 
 # MIT
 

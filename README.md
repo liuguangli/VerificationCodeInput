@@ -52,7 +52,7 @@
             android:layout_marginBottom="16dp"
             />
 
-![](https://github.com/liuguangli/VerificationCodeInput/blob/master/verification1.gif)
+![](https://github.com/liuguangli/VerificationCodeInput/blob/master/verification.gif)
 # Gradle dependencies
 
 Add it in your root build.gradle at the end of repositories:

@@ -68,7 +68,6 @@ Step 2. Add the dependency
 	dependencies {
 	        compile 'com.github.liuguangli:VerificationCodeInput:1.0'
 	}
-Share this release:
 
 # MIT
 

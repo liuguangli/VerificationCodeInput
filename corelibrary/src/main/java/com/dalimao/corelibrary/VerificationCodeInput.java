@@ -181,8 +181,19 @@ public class VerificationCodeInput extends ViewGroup {
 
             if (listener != null) {
                 listener.onComplete(stringBuilder.toString());
+                setEnabled(false);
             }
 
+        }
+    }
+
+    @Override
+    public void setEnabled(boolean enabled) {
+        int childCount = getChildCount();
+
+        for (int i = 0; i < childCount; i++) {
+            View child = getChildAt(i);
+            child.setEnabled(enabled);
         }
     }
 
@@ -239,7 +250,7 @@ public class VerificationCodeInput extends ViewGroup {
 
     }
 
-    public static interface Listener {
+    public interface Listener {
        void onComplete(String content);
     }
 

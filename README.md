@@ -52,6 +52,20 @@
             android:layout_marginBottom="16dp"
             />
 
+自定义输入类型：指定属性 inputType：
+
+     <com.dalimao.corelibrary.VerificationCodeInput
+         android:layout_width="wrap_content"
+         android:layout_height="wrap_content"
+         ver:box="5"
+         ver:box_bg_normal="@drawable/verification_edit_bg_normal"
+         ver:box_bg_focus="@drawable/verification_edit_bg_focus"
+         ver:child_h_padding="5dp"
+         ver:inputType="password"
+         android:layout_centerInParent="true"
+         android:layout_marginBottom="16dp"
+         />
+
 ![](https://github.com/liuguangli/VerificationCodeInput/blob/master/verification.gif)
 # Gradle dependencies
 
@@ -66,7 +80,7 @@ Add it in your root build.gradle at the end of repositories:
 Step 2. Add the dependency
 
 	dependencies {
-	        compile 'com.github.liuguangli:VerificationCodeInput:1.1'
+	        compile 'com.github.liuguangli:VerificationCodeInput:1.3'
 	}
 
 # MIT

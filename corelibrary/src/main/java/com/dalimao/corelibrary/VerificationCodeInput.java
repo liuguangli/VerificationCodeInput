@@ -15,12 +15,14 @@ import android.text.Editable;
 import android.text.InputFilter;
 import android.text.InputType;
 import android.text.TextWatcher;
+import android.text.method.PasswordTransformationMethod;
 import android.util.AttributeSet;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.EditorInfo;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 
@@ -30,16 +32,22 @@ import android.widget.LinearLayout;
 
 public class VerificationCodeInput extends ViewGroup {
 
+    private final static String TYPE_NUMBER = "number";
+    private final static String TYPE_TEXT = "text";
+    private final static String TYPE_PASSWORD = "password";
+    private final static String TYPE_PHONE = "phone";
+
     private static final String TAG = "VerificationCodeInput";
     private int box = 4;
     private int boxWidth = 120;
     private int boxHeight = 120;
     private int childHPadding = 14;
     private int childVPadding = 14;
+    private String inputType = TYPE_PASSWORD;
     private Drawable boxBgFocus = null;
     private Drawable boxBgNormal = null;
-    private EditText currentFocusChild;
     private Listener listener;
+
 
     public VerificationCodeInput(Context context, AttributeSet attrs) {
         super(context, attrs);
@@ -50,6 +58,7 @@ public class VerificationCodeInput extends ViewGroup {
         childVPadding = (int) a.getDimension(R.styleable.vericationCodeInput_child_v_padding, 0);
         boxBgFocus =  a.getDrawable(R.styleable.vericationCodeInput_box_bg_focus);
         boxBgNormal = a.getDrawable(R.styleable.vericationCodeInput_box_bg_normal);
+        inputType = a.getString(R.styleable.vericationCodeInput_inputType);
         initViews();
 
     }
@@ -77,47 +86,29 @@ public class VerificationCodeInput extends ViewGroup {
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-                if (s.length() == 1) {
-                    EditText editText = (EditText) getChildAt((currentFocusChild.getId() + 1) % box);
-                    editText.requestFocus();
-                }
+
+
             }
 
             @Override
             public void afterTextChanged(Editable s) {
                 if (s.length() == 0) {
                 } else {
+                    focus();
                     checkAndCommit();
                 }
 
-
             }
 
         };
 
-        OnFocusChangeListener listener = new OnFocusChangeListener() {
-            @Override
-            public void onFocusChange(View v, boolean hasFocus) {
 
-                EditText editText = (EditText)v;
-                setBg(editText, hasFocus);
-                if (hasFocus) {
-                    currentFocusChild = editText;
-                }
-            }
-        };
 
         OnKeyListener onKeyListener = new OnKeyListener() {
             @Override
-            public boolean onKey(View v, int keyCode, KeyEvent event) {
+            public synchronized boolean onKey(View v, int keyCode, KeyEvent event) {
                 if (keyCode == KeyEvent.KEYCODE_DEL) {
-                    EditText editText = (EditText) v;
-                    int id = editText.getId();
-                    if (id > 0) {
-                        EditText prEditText = (EditText) getChildAt((currentFocusChild.getId() - 1) % box);
-                        prEditText.requestFocus();
-
-                    }
+                    backFocus();
                 }
                 return false;
             }
@@ -133,25 +124,57 @@ public class VerificationCodeInput extends ViewGroup {
             layoutParams.rightMargin = childHPadding;
             layoutParams.gravity = Gravity.CENTER;
 
-            editText.setOnFocusChangeListener(listener);
+
             editText.setOnKeyListener(onKeyListener);
             setBg(editText, false);
             editText.setLayoutParams(layoutParams);
             editText.setGravity(Gravity.CENTER);
             editText.setFilters(new InputFilter[]{new InputFilter.LengthFilter(1)});
-            editText.setInputType(InputType.TYPE_CLASS_NUMBER);
+
+            if (TYPE_NUMBER.equals(inputType)) {
+                editText.setInputType(InputType.TYPE_CLASS_NUMBER);
+            } else if (TYPE_PASSWORD.equals(inputType)){
+                editText.setTransformationMethod(PasswordTransformationMethod.getInstance());
+            } else if (TYPE_TEXT.equals(inputType)){
+                editText.setInputType(InputType.TYPE_CLASS_TEXT);
+            } else if (TYPE_PHONE.equals(inputType)){
+                editText.setInputType(InputType.TYPE_CLASS_PHONE);
+
+            }
             editText.setId(i);
             editText.setEms(1);
             editText.addTextChangedListener(textWatcher);
             addView(editText,i);
-            if (i == 0) {
-                editText.requestFocus();
-                currentFocusChild = editText;
-            }
+
 
         }
 
 
+    }
+
+    private void backFocus() {
+        int count = getChildCount();
+        EditText editText ;
+        for (int i = count-1; i>= 0; i--) {
+            editText = (EditText) getChildAt(i);
+            if (editText.getText().length() == 1) {
+                editText.requestFocus();
+                editText.setSelection(1);
+                return;
+            }
+        }
+    }
+
+    private void focus() {
+        int count = getChildCount();
+        EditText editText ;
+        for (int i = 0; i< count; i++) {
+            editText = (EditText) getChildAt(i);
+            if (editText.getText().length() < 1) {
+                editText.requestFocus();
+                return;
+            }
+        }
     }
 
     private void setBg(EditText editText, boolean focus) {

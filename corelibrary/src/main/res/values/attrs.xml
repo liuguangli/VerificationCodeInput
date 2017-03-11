@@ -8,6 +8,7 @@
         <attr name="padding" format="dimension"/>
         <attr name="box_bg_focus" format="reference"/>
         <attr name="box_bg_normal" format="reference"/>
+        <attr name="inputType" format="string"/>
     </declare-styleable>
 
 </resources>

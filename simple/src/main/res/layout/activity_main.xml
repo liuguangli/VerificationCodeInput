@@ -73,4 +73,24 @@
      android:layout_centerInParent="true"
      android:layout_marginBottom="16dp"
      />
+
+ <TextView
+     android:layout_width="wrap_content"
+     android:layout_height="wrap_content"
+     android:text="定义大小："
+     android:padding="12dp"
+     />
+ <com.dalimao.corelibrary.VerificationCodeInput
+     android:layout_width="wrap_content"
+     android:layout_height="wrap_content"
+     ver:box="5"
+     ver:box_bg_normal="@drawable/verification_edit_bg_normal"
+     ver:box_bg_focus="@drawable/verification_edit_bg_focus"
+     ver:child_h_padding="5dp"
+     ver:child_width="60dp"
+     ver:child_height="40dp"
+     ver:inputType="password"
+     android:layout_centerInParent="true"
+     android:layout_marginBottom="16dp"
+     />
 </LinearLayout>

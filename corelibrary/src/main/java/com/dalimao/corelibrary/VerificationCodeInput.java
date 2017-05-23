@@ -59,6 +59,8 @@ public class VerificationCodeInput extends ViewGroup {
         boxBgFocus =  a.getDrawable(R.styleable.vericationCodeInput_box_bg_focus);
         boxBgNormal = a.getDrawable(R.styleable.vericationCodeInput_box_bg_normal);
         inputType = a.getString(R.styleable.vericationCodeInput_inputType);
+        boxWidth = (int) a.getDimension(R.styleable.vericationCodeInput_child_width, boxWidth);
+        boxHeight = (int) a.getDimension(R.styleable.vericationCodeInput_child_height, boxHeight);
         initViews();
 
     }

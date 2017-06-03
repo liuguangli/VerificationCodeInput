@@ -10,6 +10,7 @@ package com.dalimao.corelibrary;
 
 import android.content.Context;
 import android.content.res.TypedArray;
+import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.text.Editable;
 import android.text.InputFilter;
@@ -129,6 +130,7 @@ public class VerificationCodeInput extends ViewGroup {
 
             editText.setOnKeyListener(onKeyListener);
             setBg(editText, false);
+            editText.setTextColor(Color.BLACK);
             editText.setLayoutParams(layoutParams);
             editText.setGravity(Gravity.CENTER);
             editText.setFilters(new InputFilter[]{new InputFilter.LengthFilter(1)});

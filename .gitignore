@@ -50,3 +50,5 @@ captures/
 # Keystore files
 *.jks
 outcorelibrary
+.idea/*.*
+.idea/*/*

@@ -9,6 +9,7 @@
 package com.dalimao.corelibrary;
 
 import android.content.Context;
+import android.content.res.Resources;
 import android.content.res.TypedArray;
 import android.graphics.Color;
 import android.graphics.drawable.Drawable;
@@ -18,6 +19,7 @@ import android.text.InputType;
 import android.text.TextWatcher;
 import android.text.method.PasswordTransformationMethod;
 import android.util.AttributeSet;
+import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.KeyEvent;
@@ -234,31 +236,58 @@ public class VerificationCodeInput extends ViewGroup {
         return new LinearLayout.LayoutParams(getContext(), attrs);
     }
 
+
+
     @Override
     protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
         super.onMeasure(widthMeasureSpec, heightMeasureSpec);
-        Log.d(getClass().getName(), "onMeasure");
-        int count = getChildCount();
+        int parentWidth = getLayoutParams().width;
+        if (parentWidth == LayoutParams.MATCH_PARENT) {
+            parentWidth = getScreenWidth();
+        }
+        Log.d(getClass().getName(), "onMeasure width " + parentWidth);
 
+        int count = getChildCount();
         for (int i = 0; i < count; i++) {
             View child = getChildAt(i);
             this.measureChild(child, widthMeasureSpec, heightMeasureSpec);
         }
         if (count > 0) {
             View child = getChildAt(0);
-            int cHeight = child.getMeasuredHeight();
             int cWidth = child.getMeasuredWidth();
+            if (parentWidth != LayoutParams.WRAP_CONTENT) {
+                // 重新计算padding
+                childHPadding = (parentWidth - cWidth * count) / (count + 1);
+            }
+
+            int cHeight = child.getMeasuredHeight();
+
             int maxH = cHeight + 2 * childVPadding;
-            int maxW = (cWidth + childHPadding) * box + childHPadding;
+            int maxW = (cWidth) * count + childHPadding * (count + 1);
             setMeasuredDimension(resolveSize(maxW, widthMeasureSpec),
                     resolveSize(maxH, heightMeasureSpec));
         }
+
+
+
+
+
+    }
+
+    private int getScreenWidth() {
+
+        Resources resources = this.getResources();
+        DisplayMetrics dm = resources.getDisplayMetrics();
+
+        return dm.widthPixels;
+
 
     }
 
     @Override
     protected void onLayout(boolean changed, int l, int t, int r, int b) {
-        Log.d(getClass().getName(), "onLayout");
+        Log.d(getClass().getName(), "onLayout width = " +  getMeasuredWidth());
+
         int childCount = getChildCount();
 
         for (int i = 0; i < childCount; i++) {
@@ -267,7 +296,7 @@ public class VerificationCodeInput extends ViewGroup {
             child.setVisibility(View.VISIBLE);
             int cWidth = child.getMeasuredWidth();
             int cHeight = child.getMeasuredHeight();
-            int cl =  (i) * (cWidth + childHPadding);
+            int cl = childHPadding + (i) * (cWidth + childHPadding);
             int cr = cl + cWidth;
             int ct = childVPadding;
             int cb = ct + cHeight;

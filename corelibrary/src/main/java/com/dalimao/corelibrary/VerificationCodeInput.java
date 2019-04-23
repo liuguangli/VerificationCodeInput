@@ -82,6 +82,8 @@ public class VerificationCodeInput extends ViewGroup {
 
     }
 
+
+
     private void initViews() {
         TextWatcher textWatcher = new TextWatcher() {
             @Override
@@ -241,7 +243,7 @@ public class VerificationCodeInput extends ViewGroup {
     @Override
     protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
         super.onMeasure(widthMeasureSpec, heightMeasureSpec);
-        int parentWidth = getLayoutParams().width;
+        int parentWidth = getMeasuredWidth();
         if (parentWidth == LayoutParams.MATCH_PARENT) {
             parentWidth = getScreenWidth();
         }
